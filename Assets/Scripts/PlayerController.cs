@@ -16,10 +16,23 @@ public class PlayerController : MonoBehaviour {
     private void Update() {
         // Cannon Firing
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            CannonBall.CreateCannonBall(transform.position, -transform.right, rb.velocity);
+            ShootVolley(-transform.right);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            CannonBall.CreateCannonBall(transform.position, transform.right, rb.velocity);
+            ShootVolley(transform.right);
+        }
+    }
+
+    private void ShootVolley(Vector3 direction) {
+        int[] cannonBallPositions = new int[] { -2, -1, 0, 1 };
+        float cannonBallSeperationDistance = 1.5f;
+
+        for (int i = 0; i < cannonBallPositions.Length; i++) {
+            Vector3 verticalOffset = transform.up * cannonBallSeperationDistance * cannonBallPositions[i];
+            Vector3 horizontalOffset = transform.right * Random.Range(0, 0.5f);
+
+            CannonBall.CreateCannonBall((transform.position + verticalOffset + horizontalOffset), direction, rb.velocity);
+
         }
     }
 
